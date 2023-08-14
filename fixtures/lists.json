@@ -1,0 +1,26 @@
+
+     [
+        {
+            "Default":{
+                "quickTask": "Drink water",
+                "taskToEdit": "Brush teeth"
+            }
+        },
+        {
+            "Personal":{}
+        },
+        {
+            "Shoping":{}
+        },
+        {
+            "Wishlist":{}
+        },
+        {
+            "Work":{}
+        },
+        {
+            "Finished":{}
+        }
+
+
+    ]

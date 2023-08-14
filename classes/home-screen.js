@@ -10,10 +10,10 @@ class HomeScreen {
     return addTaskButtons[1];
   }
 
-  async taskFromTheList(index) {
-    const taskItem1 =  await $$("android.widget.RelativeLayout")[index];
-    const taskName1 =  await taskItem1.$("android.widget.LinearLayout");
-    const taskText1 =  await taskName1.$("android.widget.TextView");
+  get taskFromTheList() {
+    const taskItem1 =   $$("android.widget.RelativeLayout")[0];
+    const taskName1 =   taskItem1.$("android.widget.LinearLayout");
+    const taskText1 =   taskName1.$("android.widget.TextView");
     return  taskText1
   }
 
@@ -26,11 +26,9 @@ class HomeScreen {
     await this.addTaskButton.click();
   }
 
-  async clickOnTask(index) {
-    await this.taskFromTheList(index).click();
+  async clickOnTask() {
+    await this.taskFromTheList.click();
   }
-  async getTaskText(index) {
-    return await this.taskFromTheList(index).getText();
-  }
+ 
 }
 module.exports = new HomeScreen();
