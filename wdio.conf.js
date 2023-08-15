@@ -25,7 +25,8 @@ exports.config = {
   //
   specs: [
     // ToDo: define location for spec files here
-    './e2e-specs/**/*.js'
+    './e2e-specs/task-management.js'
+    
   ],
   // Patterns to exclude.
   exclude: [
@@ -47,7 +48,7 @@ exports.config = {
   // and 30 processes will get spawned. The property handles how many capabilities
   // from the same test should run tests.
   //
-  maxInstances: 10,
+  maxInstances: 1,
   //
   // If you have trouble getting all important capabilities together, check out the
   // Sauce Labs platform configurator - a great tool to configure your capabilities:
@@ -57,7 +58,7 @@ exports.config = {
     {
       // capabilities for local Appium web tests on an Android Emulator
       "platformName": "Android",
-      "appium:platformVersion": "13",
+      "appium:platformVersion": "12",
       "appium:deviceName": "Nexus S",
       "appium:app": path.join(process.cwd(),"app/android/todoApp.apk"),
       "appium:automationName": "UIAutomator2"

@@ -1,26 +1,16 @@
+{
+  "Default": {
+    "quickTask": "Drink water",
+    "quickTask2": "Brush teeth"
+  },
 
-     [
-        {
-            "Default":{
-                "quickTask": "Drink water",
-                "taskToEdit": "Brush teeth"
-            }
-        },
-        {
-            "Personal":{}
-        },
-        {
-            "Shoping":{}
-        },
-        {
-            "Wishlist":{}
-        },
-        {
-            "Work":{}
-        },
-        {
-            "Finished":{}
-        }
+  "Personal": {},
 
+  "Shoping": {},
 
-    ]
+  "Wishlist": {},
+
+  "Work": {},
+
+  "Finished": {}
+}

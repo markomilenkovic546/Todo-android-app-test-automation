@@ -1,20 +1,43 @@
 class HomeScreen {
   // Elements
-
   get quickTaskField() {
     return $("android.widget.EditText");
   }
 
-  get addTaskButton() {
+  get addQuickTaskButton() {
     const addTaskButtons = $$("~Add Task");
     return addTaskButtons[1];
   }
 
-  get taskFromTheList() {
-    const taskItem1 =   $$("android.widget.RelativeLayout")[0];
-    const taskName1 =   taskItem1.$("android.widget.LinearLayout");
-    const taskText1 =   taskName1.$("android.widget.TextView");
-    return  taskText1
+  get createTaskButton() {
+    const addTaskButton = $("~Add Task");
+    return addTaskButton;
+  }
+
+  get listsDropDown() {
+    return $("android.widget.Spinner");
+  }
+
+  async taskFromTheList(taskText) {
+    const selector = `new UiSelector().className("android.widget.TextView").text("${taskText}")`;
+    await $(`android=${selector}`).waitForExist();
+    const task = $(`android=${selector}`);
+    return task;
+  }
+
+  async screenTitle(screenTitle) {
+    const selector = `new UiSelector().className("android.widget.TextView").text("${screenTitle}")`;
+    await $(`android=${selector}`).waitForExist();
+    const title = $(`android=${selector}`);
+    return title;
+  }
+
+  async listOptionFromListDDM(listName) {
+    const selector = `new UiSelector().resourceId("com.splendapps.splendo:id/navLineName").text("${listName}")`;
+    await $(`android=${selector}`).waitForExist();
+
+    const list = $(`android=${selector}`);
+    return list;
   }
 
   //actions
@@ -22,13 +45,27 @@ class HomeScreen {
     await this.quickTaskField.setValue(taskText);
   }
 
-  async clickOnAddTaskButton() {
-    await this.addTaskButton.click();
+  async clickOnAddQuickTaskButton() {
+    await this.addQuickTaskButton.click();
   }
 
-  async clickOnTask() {
-    await this.taskFromTheList.click();
+  async clickOnAddTaskButton() {
+    await this.createTaskButton.click();
   }
- 
+
+  async clickOnTask(taskText) {
+    const taskElement = await this.taskFromTheList(taskText);
+    await taskElement.click();
+  }
+
+  async selectListOptionFromDDM(listName) {
+    const list = await this.listOptionFromListDDM(listName);
+    await list.click();
+  }
+
+  async openListsDropDown() {
+    const dropdown = await this.listsDropDown;
+    await dropdown.click();
+  }
 }
 module.exports = new HomeScreen();
