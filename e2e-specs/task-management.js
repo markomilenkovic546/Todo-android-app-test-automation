@@ -1,5 +1,5 @@
 const HomeScreen = require("../classes/home-screen");
-const NewTaskScreen = require("../classes/new-task-screen");
+const NewTaskScreen = require("../classes/New-Task-screen");
 const ListScreen = require("../classes/list-screen");
 const lists = require("../fixtures/todo-lists.json");
 
@@ -46,7 +46,7 @@ describe("Task Management", () => {
     expect(await screenTitle.isExisting()).toBe(true);
   });
 
-  it.skip("User can create a task from the 'New Task' screen", async () => {
+  it("User can create a task from the 'New Task' screen", async () => {
     // Click on the "Add task" (+) button
     await HomeScreen.clickOnAddTaskButton();
     await NewTaskScreen.typeTaskDescription(lists[0].Default[2]);
@@ -104,7 +104,7 @@ describe("Task Management", () => {
   });
 
   
-  it.only("Create task with all options", async () => {
+  it("Create task with all options", async () => {
     await HomeScreen.clickOnAddTaskButton();
     await NewTaskScreen.typeTaskDescription(lists[0].Default[3]);
     await NewTaskScreen.openDueDateCalendar();
