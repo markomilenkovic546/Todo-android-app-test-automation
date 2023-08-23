@@ -1,7 +1,8 @@
 {
   "Default": {
     "quickTask": "Drink water",
-    "quickTask2": "Brush teeth"
+    "quickTask2": "Brush teeth",
+    "taskToCreate": "Play piano"
   },
 
   "Personal": {},
