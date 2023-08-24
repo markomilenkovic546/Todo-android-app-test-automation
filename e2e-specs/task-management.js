@@ -3,7 +3,6 @@ const NewTaskScreen = require("../classes/New-Task-screen");
 const ListScreen = require("../classes/list-screen");
 const lists = require("../fixtures/todo-lists.json");
 
-
 describe("Task Management", () => {
   beforeEach(async () => {
     // Launch the app before each test
@@ -16,9 +15,8 @@ describe("Task Management", () => {
     // Click on the "Add task" button
     await HomeScreen.clickOnAddQuickTaskButton();
     // Get created quick task and verify that is created
-    const task = await HomeScreen.taskFromTheList(lists[0].Default[0]);
-    const taskDescription = await task.getText();
-    await expect(taskDescription).toEqual(lists[0].Default[0]);
+    const task = await HomeScreen.verifyThatTaskIsDisplayed(lists[0].Default[0]);
+    
   });
 
   it("Quick task is saved in the Default list ", async () => {
@@ -28,22 +26,18 @@ describe("Task Management", () => {
     await HomeScreen.clickOnAddQuickTaskButton();
     // Open lists drop down
     await HomeScreen.openListsDropDown();
-    const lname = "Default";
     // Select "Default" option from the DDM
-    await HomeScreen.selectListOptionFromDDM(lname);
+    await HomeScreen.selectListOptionFromDDM("Default");
     // Get created task and verify that is placed in the "Default" list
-    const task = await ListScreen.taskFromTheList(lists[0].Default[1]);
-    const taskDescription = await task.getText();
-    await expect(taskDescription).toEqual(lists[0].Default[1]);
+    await ListScreen.verifyThatTaskIsDisplayed(lists[0].Default[1]);
+
   });
 
   it("User can open the 'New Task' screen", async () => {
     // Click on the "Add task" (+) button
     await HomeScreen.clickOnAddTaskButton();
-    const screenTitle = await NewTaskScreen.screenTitle("New Task");
-    await screenTitle.waitForExist();
     // Verify that "New Task" screen is displayed
-    expect(await screenTitle.isExisting()).toBe(true);
+    await NewTaskScreen.verifyThatScreenTitleIsCorerct("New Task")
   });
 
   it("User can create a task from the 'New Task' screen", async () => {
@@ -54,9 +48,8 @@ describe("Task Management", () => {
     await NewTaskScreen.selectDueDate();
     await NewTaskScreen.clickOkButton();
     await NewTaskScreen.clickOnSaveTaskButton();
-    const task = await HomeScreen.taskFromTheList(lists[0].Default[2]);
-    const taskDescription = await task.getText();
-    await expect(taskDescription).toEqual(lists[0].Default[2]);
+    await HomeScreen.verifyThatTaskIsDisplayed(lists[0].Default[2])
+ 
   });
 
   it("Create task with title only (Minimum data required)", async () => {
@@ -65,9 +58,7 @@ describe("Task Management", () => {
     await NewTaskScreen.clickOnSaveTaskButton();
     await HomeScreen.openListsDropDown();
     await HomeScreen.selectListOptionFromDDM("Default");
-    const task = await HomeScreen.taskFromTheList(lists[0].Default[2]);
-    const taskDescription = await task.getText();
-    await expect(taskDescription).toEqual(lists[0].Default[2]);
+    await HomeScreen.verifyThatTaskIsDisplayed(lists[0].Default[2])
   });
 
   it("Create task with due time", async () => {
@@ -80,14 +71,11 @@ describe("Task Management", () => {
     await HomeScreen.openListsDropDown();
     // Select "Default" option from the DDM
     await HomeScreen.selectListOptionFromDDM("Default");
-    const task = await HomeScreen.taskFromTheList(lists[0].Default[2]);
-    const taskDescription = await task.getText();
     // Verify that task is created and is it's saved in the correct default list
-    await expect(taskDescription).toEqual(lists[0].Default[2]);
-    const taskDueDateElement = await HomeScreen.taskDueDate("Today");
-    const dueDateText = await taskDueDateElement.getText();
+    await ListScreen.verifyThatTaskIsDisplayed(lists[0].Default[2])
     //Created task has correctly set due date
-    await expect(dueDateText).toEqual("Today");
+    await ListScreen.verifyThatTaskDueDateIsCorrect("Today");
+   
   });
 
   it("Create task with specific list", async () => {
@@ -100,10 +88,9 @@ describe("Task Management", () => {
     await HomeScreen.openListsDropDown();
     await HomeScreen.selectListOptionFromDDM("Shopping");
     // Verify that task is saved in the correct list
-    const task = await ListScreen.taskFromTheList(lists[0].Default[3]);
+    await ListScreen.verifyThatTaskIsDisplayed(lists[0].Default[3])
   });
 
-  
   it("Create task with all options", async () => {
     await HomeScreen.clickOnAddTaskButton();
     await NewTaskScreen.typeTaskDescription(lists[0].Default[3]);
@@ -111,20 +98,44 @@ describe("Task Management", () => {
     await NewTaskScreen.selectDueDate();
     await NewTaskScreen.clickOkButton();
     await driver.hideKeyboard();
-    await NewTaskScreen.swipeToTheBottom()
+    await NewTaskScreen.swipeToTheBottom();
     await NewTaskScreen.openAddTolistDropDown();
     await NewTaskScreen.selectListOptionFromDDM("Shopping");
-    
     await NewTaskScreen.clickOnSaveTaskButton();
     await HomeScreen.openListsDropDown();
     await HomeScreen.selectListOptionFromDDM("Shopping");
     // Verify that task is saved in the correct list
-    const task = await ListScreen.taskFromTheList(lists[0].Default[3]);
-    const taskDueDateElement = await ListScreen.taskDueDate("Today");
-    const dueDateText = await taskDueDateElement.getText();
+    await ListScreen.verifyThatTaskIsDisplayed(lists[0].Default[3]);
     //Created task has correctly set due date
-    await expect(dueDateText).toEqual("Today");
-  
+    await ListScreen.verifyThatTaskDueDateIsCorrect("Today");
+  });
+
+  it("User can quit task creation without saving ", async () => {
+    await HomeScreen.clickOnAddTaskButton();
+    await NewTaskScreen.typeTaskDescription(lists[0].Default[4]);
+    await NewTaskScreen.clickOnBackButton();
+    await NewTaskScreen.clickOnYesButton();
+    // Verify that Home screen is displayed
+    await HomeScreen.verifyThatAllListsDropDownIsDisplayed()
+    // Verify that task is not saved
+    await HomeScreen.verifyThatTaskIsNotDisplayed(lists[0].Default[4]);
     await browser.pause(6000);
+  });
+
+  it("User can navigate back from New Task screen to Home screen", async () => {
+    await HomeScreen.clickOnAddTaskButton();
+    await NewTaskScreen.clickOnBackButton();
+    // Verify that Home screen is displayed
+    await HomeScreen.verifyThatAllListsDropDownIsDisplayed()
+  });
+
+  it("User cannot create a task without description", async () => {
+    await HomeScreen.clickOnAddTaskButton();
+    await NewTaskScreen.clickOnSaveTaskButton();
+    // Verify that error message is displayed
+    await NewTaskScreen.verifyThatErrorMessageIsDisplayed() 
+    // Verify that error message disappeared
+    await NewTaskScreen.verifyThatErrorMessageIsNotDisplayed()
+    await browser.pause(3000);
   });
 });

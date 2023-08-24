@@ -27,7 +27,18 @@ class ListScreen {
     //actions
  
   
-    
+    // Assertions
+
+    async verifyThatTaskIsDisplayed(taskDescription) {
+      const task = await this.taskFromTheList(taskDescription);
+      await task.waitForExist();
+    }
+
+    async verifyThatTaskDueDateIsCorrect(dueDate) {
+      const taskDueDate = await this.taskDueDate(dueDate);
+      const dueDateText =  await taskDueDate.getText();
+      await expect(dueDateText).toEqual(dueDate)
+    }
   }
   module.exports = new ListScreen();
   

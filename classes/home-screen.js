@@ -84,5 +84,27 @@ class HomeScreen {
     const dropdown = await this.listsDropDown;
     await dropdown.click();
   }
+
+
+  // Assertions
+  async verifyThatTaskIsNotDisplayed(taskText) {
+    const selector = `new UiSelector().className("android.widget.TextView").text("${taskText}")`;
+    await $(`android=${selector}`).waitForExist({ reverse: true });
+    const task = $(`android=${selector}`);
+    return task;
+  }
+
+  async verifyThatTaskIsDisplayed(taskDescription) {
+    const selector = `new UiSelector().className("android.widget.TextView").text("${taskDescription}")`;
+    await $(`android=${selector}`).waitForExist();
+    const task = $(`android=${selector}`);
+    return task;
+  }
+
+  async verifyThatAllListsDropDownIsDisplayed() {
+    const allListsTitle = await this.listsDropDown;
+    const titleExist = await allListsTitle.waitForExist({ timeout: 5000 });
+    await expect(titleExist).toBe(true, "Element exists as expected");
+  }
 }
 module.exports = new HomeScreen();

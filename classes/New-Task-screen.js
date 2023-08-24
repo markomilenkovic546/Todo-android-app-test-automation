@@ -7,6 +7,11 @@ class NewTaskScreen {
     return title;
   }
 
+  get backButton() {
+    const backBtn = $("~Navigate up");
+    return backBtn;
+  }
+
   async taskDescriptionInputField() {
     const selector = `new UiSelector().className("android.widget.EditText").text("Enter Task Here")`;
     await $(`android=${selector}`).waitForExist();
@@ -56,6 +61,30 @@ class NewTaskScreen {
     return addListButton;
   }
 
+  async yesButton() {
+    const selector = `new UiSelector().className("android.widget.Button").text("YES")`;
+    await $(`android=${selector}`).waitForExist();
+
+    const yesBtn = $(`android=${selector}`);
+    return yesBtn;
+  }
+
+  async cancelButton() {
+    const selector = `new UiSelector().className("android.widget.Button").text("CANCEL")`;
+    await $(`android=${selector}`).waitForExist();
+
+    const cancelBtn = $(`android=${selector}`);
+    return cancelBtn;
+  }
+
+  async enterTaskErrorMessage() {
+    const selector = `new UiSelector().className("android.widget.TextView").text("Enter task at first")`;
+    await $(`android=${selector}`).waitForExist();
+
+    const errorMessage = $(`android=${selector}`);
+    return errorMessage;
+  }
+
   /////////actions
   async typeTaskDescription(taskText) {
     const task = await this.taskDescriptionInputField();
@@ -64,6 +93,10 @@ class NewTaskScreen {
 
   async clickOnSaveTaskButton() {
     await this.saveTaskButton.click();
+  }
+
+  async clickOnBackButton() {
+    await this.backButton.click();
   }
 
   async openDueDateCalendar() {
@@ -90,6 +123,16 @@ class NewTaskScreen {
   async clickOkButton() {
     const okBtn = await this.okButton();
     await okBtn.click();
+  }
+
+  async clickOnYesButton() {
+    const yesButton = await this.yesButton();
+    await yesButton.click();
+  }
+
+  async clickOnCancelButton() {
+    const cancelButton = await this.cancelButton();
+    await cancelButton.click();
   }
 
   async openAddTolistDropDown() {
@@ -144,5 +187,34 @@ class NewTaskScreen {
       },
     ]);
   }
+
+
+  // Assertions
+
+  async verifyThatErrorMessageIsNotDisplayed() {
+    const selector = `new UiSelector().className("android.widget.TextView").text("Enter task at first")`;
+    await $(`android=${selector}`).waitForExist({ reverse: true });
+
+    const errorMessage = $(`android=${selector}`);
+    return errorMessage;
+  }
+
+  async verifyThatErrorMessageIsDisplayed() {
+    const selector = `new UiSelector().className("android.widget.TextView").text("Enter task at first")`;
+    await $(`android=${selector}`).waitForExist();
+
+    const errorMessage = $(`android=${selector}`);
+    return errorMessage;
+  }
+
+  async verifyThatScreenTitleIsCorerct(screenTitle) {
+    const title = await this.screenTitle(screenTitle);
+    await title.waitForExist();
+    expect(await title.isExisting()).toBe(true);
+  }
 }
 module.exports = new NewTaskScreen();
+
+
+
+
