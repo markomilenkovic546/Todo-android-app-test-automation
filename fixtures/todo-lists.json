@@ -1,6 +1,12 @@
  [
     {
-      "Default": ["Drink water", "Brush teeth", "Play piano", "Buy T-Shirt"]
+      "Default": [
+       "Drink water",
+       "Brush teeth",
+       "Play piano",
+       "Buy T-Shirt",
+       "Do homework"
+      ]
     },
     {
       "Personal": []
