@@ -26,6 +26,11 @@ class NewTaskScreen {
     return dueDateField;
   }
 
+  get nextMonthButton() {
+    const nextMonthBtn = $("~Next month");
+    return nextMonthBtn;
+  }
+
   async okButton() {
     const selector = `new UiSelector().className("android.widget.Button").text("OK")`;
     await $(`android=${selector}`).waitForExist();
@@ -116,6 +121,23 @@ class NewTaskScreen {
     const formattedDate = formatDate(today);
     console.log(formattedDate);
 
+    const dueDateBtn = await this.dueDateButton(formattedDate);
+    await dueDateBtn.click();
+  }
+
+  async selectTomorrowAsDueDate() {
+    function formatDate(date) {
+      const day = date.getDate();
+      const month = date.toLocaleString("default", { month: "long" });
+      const year = date.getFullYear();
+      return `${day} ${month} ${year}`;
+    }
+  
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1); // Add one day to get tomorrow's date
+    const formattedDate = formatDate(tomorrow);
+    console.log(formattedDate);
+  
     const dueDateBtn = await this.dueDateButton(formattedDate);
     await dueDateBtn.click();
   }

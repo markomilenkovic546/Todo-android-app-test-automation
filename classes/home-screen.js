@@ -50,7 +50,7 @@ class HomeScreen {
   }
 
   async listOptionFromListDDM(listName) {
-    const selector = `new UiSelector().resourceId("com.splendapps.splendo:id/navLineName").text("${listName}")`;
+    const selector = `new UiSelector().className("android.widget.TextView").text("${listName}")`;
     await $(`android=${selector}`).waitForExist();
 
     const list = $(`android=${selector}`);
