@@ -5,11 +5,13 @@
        "Brush teeth",
        "Play piano",
        "Buy T-Shirt",
-       "Do homework"
+       "Do homework",
+       "Pay bills",
+       "Play football"
       ]
     },
     {
-      "Personal": []
+      "Personal": ["Call mom"]
     },
     {
       "Shoping": []

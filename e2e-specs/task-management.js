@@ -1,12 +1,17 @@
 const HomeScreen = require("../classes/home-screen");
 const NewTaskScreen = require("../classes/New-Task-screen");
+const EditTaskScreen = require("../classes/edit-task-screen");
 const ListScreen = require("../classes/list-screen");
 const lists = require("../fixtures/todo-lists.json");
+require('../custom-commands/commands.js');
+
+
 
 describe("Task Management", () => {
   beforeEach(async () => {
     // Launch the app before each test
     await driver.launchApp();
+   
   });
 
   it("User can create a Quick task", async () => {
@@ -45,7 +50,6 @@ describe("Task Management", () => {
     await HomeScreen.clickOnAddTaskButton();
     await NewTaskScreen.typeTaskDescription(lists[0].Default[2]);
     await NewTaskScreen.openDueDateCalendar();
-    await NewTaskScreen.selectDueDate();
     await NewTaskScreen.clickOkButton();
     await NewTaskScreen.clickOnSaveTaskButton();
     await HomeScreen.verifyThatTaskIsDisplayed(lists[0].Default[2])
@@ -65,7 +69,6 @@ describe("Task Management", () => {
     await HomeScreen.clickOnAddTaskButton();
     await NewTaskScreen.typeTaskDescription(lists[0].Default[2]);
     await NewTaskScreen.openDueDateCalendar();
-    await NewTaskScreen.selectDueDate();
     await NewTaskScreen.clickOkButton();
     await NewTaskScreen.clickOnSaveTaskButton();
     await HomeScreen.openListsDropDown();
@@ -95,7 +98,6 @@ describe("Task Management", () => {
     await HomeScreen.clickOnAddTaskButton();
     await NewTaskScreen.typeTaskDescription(lists[0].Default[3]);
     await NewTaskScreen.openDueDateCalendar();
-    await NewTaskScreen.selectDueDate();
     await NewTaskScreen.clickOkButton();
     await driver.hideKeyboard();
     await NewTaskScreen.swipeToTheBottom();
@@ -119,7 +121,6 @@ describe("Task Management", () => {
     await HomeScreen.verifyThatAllListsDropDownIsDisplayed()
     // Verify that task is not saved
     await HomeScreen.verifyThatTaskIsNotDisplayed(lists[0].Default[4]);
-    await browser.pause(6000);
   });
 
   it("User can navigate back from New Task screen to Home screen", async () => {
@@ -136,6 +137,31 @@ describe("Task Management", () => {
     await NewTaskScreen.verifyThatErrorMessageIsDisplayed() 
     // Verify that error message disappeared
     await NewTaskScreen.verifyThatErrorMessageIsNotDisplayed()
-    await browser.pause(3000);
+  });
+
+  it("User can edit task description", async () => {
+    await browser.createTask(lists[1].Personal[0], "Personal");
+    await HomeScreen.clickOnTask(lists[1].Personal[0])
+    const taskDescriptionField = await EditTaskScreen.taskDescriptionInputFieldWithValue(lists[1].Personal[0])
+    await taskDescriptionField.clearValue();
+    await EditTaskScreen.typeTaskDescription(lists[0].Default[6]);
+    await EditTaskScreen.clickOnSaveTaskButton();
+    await HomeScreen.verifyThatTaskIsDisplayed(lists[0].Default[6]);
+  });
+
+  it("User can edit a task due date", async () => {
+    await browser.createTask(lists[1].Personal[0], "Personal");
+    await HomeScreen.clickOnTask(lists[1].Personal[0])
+    await EditTaskScreen.openDueDateCalendar("Today");
+    await EditTaskScreen.selectTomorrowAsDueDate()
+    await EditTaskScreen.clickOkButton();
+    await EditTaskScreen.clickOnSaveTaskButton();
+    await HomeScreen.openListsDropDown()
+    // Select "Default" option from the DDM
+    await HomeScreen.selectListOptionFromDDM("Personal");
+    // Verify that task is created and is it's saved in the correct default list
+    await ListScreen.verifyThatTaskIsDisplayed(lists[1].Personal[0])
+    //Created task has correctly set due date
+    await ListScreen.verifyThatTaskDueDateIsCorrect("Tomorrow");
   });
 });
