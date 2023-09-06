@@ -9,6 +9,19 @@ class HomeScreen {
     return addTaskButtons[1];
   }
 
+  get moreOptionsDropDown() {
+    const moreOptionsDropDown = $("~More options");
+    return moreOptionsDropDown;
+  }
+
+  async optionFromOveflowMenu(option) {
+    const selector = `new UiSelector().className("android.widget.TextView").text("${option}")`;
+    await $(`android=${selector}`).waitForExist();
+
+    const menuOption = $(`android=${selector}`);
+    return menuOption;
+  }
+
   get createTaskButton() {
     const addTaskButton = $("~Add Task");
     return addTaskButton;
@@ -58,6 +71,7 @@ class HomeScreen {
   }
 
   //actions
+  
   async typeQuickTask(taskText) {
     await this.quickTaskField.setValue(taskText);
   }
@@ -65,6 +79,11 @@ class HomeScreen {
   async clickOnAddQuickTaskButton() {
     await this.addQuickTaskButton.click();
   }
+
+  async openMoreOptionsDropDown() {
+    await this.moreOptionsDropDown.click();
+  }
+
 
   async clickOnAddTaskButton() {
     await this.createTaskButton.click();
@@ -78,6 +97,11 @@ class HomeScreen {
   async selectListOptionFromDDM(listName) {
     const list = await this.listOptionFromListDDM(listName);
     await list.click();
+  }
+
+  async selectOptionFromOverflowMenu(option) {
+    const menuOption = await this.optionFromOveflowMenu(option);
+    await menuOption.click();
   }
 
   async openListsDropDown() {
