@@ -1,5 +1,5 @@
 const HomeScreen = require("../classes/home-screen");
-const NewTaskScreen = require("../classes/New-Task-screen");
+const NewTaskScreen = require("../classes/new-task-screen");
 const ListScreen = require("../classes/list-screen");
 const lists = require("../fixtures/todo-lists.json");
 

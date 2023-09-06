@@ -91,6 +91,14 @@ class EditTaskScreen {
       const errorMessage = $(`android=${selector}`);
       return errorMessage;
     }
+
+    async isItFinishedCheckBox() {
+      const selector = `new UiSelector().className("android.widget.CheckBox").text("Task finished?")`;
+      await $(`android=${selector}`).waitForExist();
+  
+      const checkBox = $(`android=${selector}`);
+      return checkBox;
+    }
   
     /////////actions
     async typeTaskDescription(taskText) {
@@ -100,6 +108,11 @@ class EditTaskScreen {
   
     async clickOnSaveTaskButton() {
       await this.saveTaskButton.click();
+    }
+
+    async checkTaskAsFinished() {
+      const checkBox = await this.isItFinishedCheckBox();
+      await checkBox.click();
     }
   
     async clickOnBackButton() {

@@ -1,4 +1,4 @@
-class ListScreen {
+class FinishedListScreen {
 
     // Elements
       async taskFromTheList(taskText) {
@@ -14,7 +14,7 @@ class ListScreen {
         const allTaskElements = $$(`android=${parentSelector}`); // $$ for selecting multiple elements
     
         // Select the element by index from the array
-        const taskElement = await allTaskElements[index];
+        const taskElement = allTaskElements[index];
     
         // Find a child element within the parent using UiSelector
         const childSelector = `new UiSelector().className("android.widget.TextView").text("${dueDate}")`;
@@ -51,8 +51,8 @@ class ListScreen {
       return list;
     }
 
-    async taskFinishedMessage() {
-      const selector = `new UiSelector().className("android.widget.TextView").text("TaskFinished")`;
+    async taskStatusChangeMessage() {
+      const selector = `new UiSelector().className("android.widget.TextView").text("Task forwarded to redo")`;
       await $(`android=${selector}`).waitForExist();
   
       const message = $(`android=${selector}`);
@@ -70,15 +70,10 @@ class ListScreen {
       await dropdown.click();
     }
 
-    async checkTaskAsFinished(index) {
+    async checkTaskAsUndone(index) {
       const taskCheckBox = await this.taskCheckBox(index);
       await taskCheckBox.click()
       
-    }
-
-    async clickOnTask(taskText) {
-      const taskElement = await this.taskFromTheList(taskText);
-      await taskElement.click();
     }
   
     // Assertions
@@ -101,19 +96,18 @@ class ListScreen {
       await expect(dueDateText).toEqual(dueDate)
     }
 
-    async verifyThatTaskFinishedMessageIsNotDisplayed() {
-      const selector = `new UiSelector().className("android.widget.TextView").text("Task Finished")`;
-      await $(`android=${selector}`).waitForExist({ reverse: true });
+    async verifyThatStatusChangeMessageIsNotDisplayed() {
+        const selector = `new UiSelector().className("android.widget.TextView").text("Task forwarded to redo")`;
+        await $(`android=${selector}`).waitForExist({ reverse: true });
     }
   
-    async verifyThatTaskFinishedMessageIsDisplayed() {
-      const selector = `new UiSelector().className("android.widget.TextView").text("Task Finished")`;
-      await $(`android=${selector}`).waitForExist();
-      const message = $(`android=${selector}`);
-      return message;
+    async verifyThatStatusChangeMessageIsDisplayed() {
+        const selector = `new UiSelector().className("android.widget.TextView").text("Task forwarded to redo")`;
+        await $(`android=${selector}`).waitForExist();
+        const message = $(`android=${selector}`);
+        return message;
     }
 
     
   }
-  module.exports = new ListScreen();
-  
+  module.exports = new FinishedListScreen();
