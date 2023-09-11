@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project is designed to automate the testing of a TODO list Android application using the WebdriverIO and Appium frameworks. It focuses on the testing of two main features: List Management and Task Management.
+This project is designed to automate the testing of a TODO list Android application by leveraging the WebdriverIO and Appium frameworks. It focuses on the testing of two main features: List Management and Task Management.
 
 ## Prerequisites
 
