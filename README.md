@@ -8,7 +8,7 @@ This project is designed to automate the testing of a TODO list Android applicat
 
 Before running the tests, ensure that you have the following prerequisites installed on your local machine:
 
-- **Java**: You will need Java installed on your machine, as Appium is a Java-based automation tool.
+- **Java Development Kit (JDK) **: You will need Java Development Kit (JDK) installed on your machine, as Appium is a Java-based automation tool.
 
 - **Appium Server**: Install and set up the Appium server. [Appium's official website](http://appium.io/).
 
