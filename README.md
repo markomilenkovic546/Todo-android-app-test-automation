@@ -43,4 +43,4 @@ To run specific test scripts, use the following NPM scripts:
 `npx wdio wdio.conf.js`
 
 # Generating and Viewing Allure Test Run Reports
-Once the the test run is finished, in order to generate test run report and run local server to open report in browser, run the command `allure generate allure-results && allure open`
+Once the the test run is finished, in order to generate test run report and run local server to open report in the browser, run the command `allure generate allure-results && allure open`
