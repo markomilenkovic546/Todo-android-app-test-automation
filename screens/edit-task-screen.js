@@ -1,7 +1,6 @@
-class AddInBatchModeScreen {
-
-// Elements
-async screenTitle(screenTitle) {
+class EditTaskScreen {
+  //=======================================Elements===========================================//
+  async screenTitle(screenTitle) {
     const selector = `new UiSelector().className("android.widget.TextView").text("${screenTitle}")`;
     await $(`android=${selector}`).waitForExist();
     const title = $(`android=${selector}`);
@@ -13,23 +12,25 @@ async screenTitle(screenTitle) {
     return backBtn;
   }
 
-  async taskDescriptionInputField() {
-    const selector = `new UiSelector().className("android.widget.EditText")`;
+  async taskDescriptionInputFieldWithValue(taskName) {
+    const selector = `new UiSelector().className("android.widget.EditText").text("${taskName}")`;
     await $(`android=${selector}`).waitForExist();
     const enterTaskField = $(`android=${selector}`);
     return enterTaskField;
   }
 
-  async dueDateInputField() {
-    const selector = `new UiSelector().className("android.widget.EditText").text("Date not set")`;
+  async taskDescriptionInputField() {
+    const selector = `new UiSelector().className("android.widget.EditText").text("Enter Task Here")`;
+    await $(`android=${selector}`).waitForExist();
+    const enterTaskField = $(`android=${selector}`);
+    return enterTaskField;
+  }
+
+  async dueDateInputField(dueDate) {
+    const selector = `new UiSelector().className("android.widget.EditText").text("${dueDate}")`;
     await $(`android=${selector}`).waitForExist();
     const dueDateField = $(`android=${selector}`);
     return dueDateField;
-  }
-
-  get nextMonthButton() {
-    const nextMonthBtn = $("~Next month");
-    return nextMonthBtn;
   }
 
   async okButton() {
@@ -40,8 +41,8 @@ async screenTitle(screenTitle) {
   }
 
   async dueDateButton(dueDate) {
-    const saveTaskButton = await $(`~${dueDate}`);
-    return saveTaskButton;
+    const dueDateButton = await $(`~${dueDate}`);
+    return dueDateButton;
   }
 
   get saveTaskButton() {
@@ -57,7 +58,6 @@ async screenTitle(screenTitle) {
   async listOptionFromListDDM(listName) {
     const selector = `new UiSelector().className("android.widget.TextView").text("${listName}")`;
     await $(`android=${selector}`).waitForExist();
-
     const list = $(`android=${selector}`);
     return list;
   }
@@ -70,7 +70,6 @@ async screenTitle(screenTitle) {
   async yesButton() {
     const selector = `new UiSelector().className("android.widget.Button").text("YES")`;
     await $(`android=${selector}`).waitForExist();
-
     const yesBtn = $(`android=${selector}`);
     return yesBtn;
   }
@@ -78,7 +77,6 @@ async screenTitle(screenTitle) {
   async cancelButton() {
     const selector = `new UiSelector().className("android.widget.Button").text("CANCEL")`;
     await $(`android=${selector}`).waitForExist();
-
     const cancelBtn = $(`android=${selector}`);
     return cancelBtn;
   }
@@ -86,12 +84,18 @@ async screenTitle(screenTitle) {
   async enterTaskErrorMessage() {
     const selector = `new UiSelector().className("android.widget.TextView").text("Enter task at first")`;
     await $(`android=${selector}`).waitForExist();
-
     const errorMessage = $(`android=${selector}`);
     return errorMessage;
   }
 
-  /////////actions
+  async isItFinishedCheckBox() {
+    const selector = `new UiSelector().className("android.widget.CheckBox").text("Task finished?")`;
+    await $(`android=${selector}`).waitForExist();
+    const checkBox = $(`android=${selector}`);
+    return checkBox;
+  }
+
+  //=======================================Actions===========================================//
   async typeTaskDescription(taskText) {
     const task = await this.taskDescriptionInputField();
     await task.setValue(taskText);
@@ -101,12 +105,17 @@ async screenTitle(screenTitle) {
     await this.saveTaskButton.click();
   }
 
+  async checkTaskAsFinished() {
+    const checkBox = await this.isItFinishedCheckBox();
+    await checkBox.click();
+  }
+
   async clickOnBackButton() {
     await this.backButton.click();
   }
 
-  async openDueDateCalendar() {
-    const dueDateField = await this.dueDateInputField();
+  async openDueDateCalendar(dueDate) {
+    const dueDateField = await this.dueDateInputField(dueDate);
     await dueDateField.click();
   }
 
@@ -131,14 +140,15 @@ async screenTitle(screenTitle) {
       const day = date.getDate();
       const month = date.toLocaleString("default", { month: "long" });
       const year = date.getFullYear();
-      return `${day} ${month} ${year}`;
+      const formattedDay = day.toString().padStart(2, "0"); // Pad with a zero if it's a single-digit day
+      return `${formattedDay} ${month} ${year}`;
     }
-  
+
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1); // Add one day to get tomorrow's date
     const formattedDate = formatDate(tomorrow);
     console.log(formattedDate);
-  
+
     const dueDateBtn = await this.dueDateButton(formattedDate);
     await dueDateBtn.click();
   }
@@ -211,21 +221,18 @@ async screenTitle(screenTitle) {
     ]);
   }
 
-
-  // Assertions
+  //=======================================Assertions===========================================//
 
   async verifyThatErrorMessageIsNotDisplayed() {
-    const selector = `new UiSelector().className("android.widget.TextView").text("Enter tasks at first")`;
+    const selector = `new UiSelector().className("android.widget.TextView").text("Enter task at first")`;
     await $(`android=${selector}`).waitForExist({ reverse: true });
-
     const errorMessage = $(`android=${selector}`);
     return errorMessage;
   }
 
   async verifyThatErrorMessageIsDisplayed() {
-    const selector = `new UiSelector().className("android.widget.TextView").text("Enter tasks at first")`;
+    const selector = `new UiSelector().className("android.widget.TextView").text("Enter task at first")`;
     await $(`android=${selector}`).waitForExist();
-
     const errorMessage = $(`android=${selector}`);
     return errorMessage;
   }
@@ -235,8 +242,5 @@ async screenTitle(screenTitle) {
     await title.waitForExist();
     expect(await title.isExisting()).toBe(true);
   }
-
-    
-  }
-  module.exports = new AddInBatchModeScreen();
-  
+}
+module.exports = new EditTaskScreen();

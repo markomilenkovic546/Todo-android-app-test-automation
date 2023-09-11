@@ -1,6 +1,6 @@
-const HomeScreen = require("../classes/home-screen");
-const NewTaskScreen = require("../classes/new-task-screen");
-const ListScreen = require("../classes/list-screen");
+const HomeScreen = require("../screens/home-screen");
+const NewTaskScreen = require("../screens/new-task-screen");
+const ListScreen = require("../screens/list-screen");
 const lists = require("../fixtures/todo-lists.json");
 
 browser.addCommand('createTask', async function (taskDescription, listName) {

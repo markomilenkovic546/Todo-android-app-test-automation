@@ -5,7 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "wdio": "wdio run ./wdio.conf.js"
+    "wdio": "wdio run ./wdio.conf.js",
+    "list-management-spec": "wdio run ./wdio.conf.js --spec ./e2e-specs/list-management.js",
+    "task-management-spec": "wdio run ./wdio.conf.js --spec ./e2e-specs/task-management.js",
+    "all-specs": "npm run list-management-spec && npm run task-management-spec"
+
   },
   "keywords": [],
   "author": "",

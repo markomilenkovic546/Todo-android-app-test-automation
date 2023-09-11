@@ -1,10 +1,10 @@
-const HomeScreen = require("../classes/home-screen");
-const NewTaskScreen = require("../classes/new-task-screen");
-const EditTaskScreen = require("../classes/edit-task-screen");
-const ListScreen = require("../classes/list-screen");
-const AddInBatchModeScreen = require("../classes/add-in-batch-mode-screen");
+const HomeScreen = require("../screens/home-screen");
+const NewTaskScreen = require("../screens/new-task-screen");
+const EditTaskScreen = require("../screens/edit-task-screen");
+const ListScreen = require("../screens/list-screen");
+const AddInBatchModeScreen = require("../screens/add-in-batch-mode-screen");
 const lists = require("../fixtures/todo-lists.json");
-const FinishedListScreen = require("../classes/finished-list-screen");
+const FinishedListScreen = require("../screens/finished-list-screen");
 require('../custom-commands/commands.js');
 
 
@@ -348,6 +348,5 @@ describe("Task Management", () => {
     await ListScreen.openListsDropDown();
     await ListScreen.selectListOptionFromDDM("Finished");
     await FinishedListScreen.verifyThatTaskIsDisplayed(lists[0].Default[2]);
-
   })
 });
