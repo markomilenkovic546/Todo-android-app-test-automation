@@ -1,5 +1,5 @@
 class NewTaskScreen {
-  // Elements
+  //=======================================Elements===========================================//
   async screenTitle(screenTitle) {
     const selector = `new UiSelector().className("android.widget.TextView").text("${screenTitle}")`;
     await $(`android=${selector}`).waitForExist();
@@ -74,12 +74,24 @@ class NewTaskScreen {
     return yesBtn;
   }
 
+  async addButton() {
+    const selector = `new UiSelector().className("android.widget.Button").text("ADD")`;
+    await $(`android=${selector}`).waitForExist();
+
+    const addBtn = $(`android=${selector}`);
+    return addBtn;
+  }
+
   async cancelButton() {
     const selector = `new UiSelector().className("android.widget.Button").text("CANCEL")`;
     await $(`android=${selector}`).waitForExist();
 
     const cancelBtn = $(`android=${selector}`);
     return cancelBtn;
+  }
+
+  get enterListNameField() {
+    return $("android.widget.EditText");
   }
 
   async enterTaskErrorMessage() {
@@ -90,10 +102,14 @@ class NewTaskScreen {
     return errorMessage;
   }
 
-  /////////actions
+  //=======================================Actions===========================================//
   async typeTaskDescription(taskText) {
     const task = await this.taskDescriptionInputField();
     await task.setValue(taskText);
+  }
+
+  async typeListName(listName) {
+    await this.enterListNameField.setValue(listName);
   }
 
   async clickOnSaveTaskButton() {
@@ -132,12 +148,12 @@ class NewTaskScreen {
       const year = date.getFullYear();
       return `${day} ${month} ${year}`;
     }
-  
+
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1); // Add one day to get tomorrow's date
     const formattedDate = formatDate(tomorrow);
     console.log(formattedDate);
-  
+
     const dueDateBtn = await this.dueDateButton(formattedDate);
     await dueDateBtn.click();
   }
@@ -155,6 +171,11 @@ class NewTaskScreen {
   async clickOnCancelButton() {
     const cancelButton = await this.cancelButton();
     await cancelButton.click();
+  }
+
+  async clickOnAddButton() {
+    const addButton = await this.addButton();
+    await addButton.click();
   }
 
   async openAddTolistDropDown() {
@@ -210,13 +231,11 @@ class NewTaskScreen {
     ]);
   }
 
-
-  // Assertions
+  //=======================================Assertions===========================================//
 
   async verifyThatErrorMessageIsNotDisplayed() {
     const selector = `new UiSelector().className("android.widget.TextView").text("Enter task at first")`;
     await $(`android=${selector}`).waitForExist({ reverse: true });
-
     const errorMessage = $(`android=${selector}`);
     return errorMessage;
   }
@@ -224,7 +243,6 @@ class NewTaskScreen {
   async verifyThatErrorMessageIsDisplayed() {
     const selector = `new UiSelector().className("android.widget.TextView").text("Enter task at first")`;
     await $(`android=${selector}`).waitForExist();
-
     const errorMessage = $(`android=${selector}`);
     return errorMessage;
   }
@@ -236,7 +254,3 @@ class NewTaskScreen {
   }
 }
 module.exports = new NewTaskScreen();
-
-
-
-

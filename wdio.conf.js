@@ -6,7 +6,7 @@ exports.config = {
   // ====================
   // WebdriverIO supports running e2e tests as well as unit and component tests.
   runner: "local",
-  port: 4724,
+  port: 4723,
   //
   // ==================
   // Specify Test Files
@@ -25,7 +25,8 @@ exports.config = {
   //
   specs: [
     // ToDo: define location for spec files here
-    './e2e-specs/task-management.js'
+    './e2e-specs/task-management.js',
+    './e2e-specs/list-management.js'
     
   ],
   // Patterns to exclude.
@@ -61,7 +62,8 @@ exports.config = {
       "appium:platformVersion": "12",
       "appium:deviceName": "Nexus S",
       "appium:app": path.join(process.cwd(),"app/android/todoApp.apk"),
-      "appium:automationName": "UIAutomator2"
+      "appium:automationName": "UIAutomator2",
+      'appium:newCommandTimeout': 240
     },
   ],
 
@@ -124,7 +126,7 @@ exports.config = {
   framework: "mocha",
   //
   // The number of times to retry the entire specfile when it fails as a whole
-  // specFileRetries: 1,
+  //specFileRetries: 2,
   //
   // Delay in seconds between the spec file retry attempts
   // specFileRetriesDelay: 0,

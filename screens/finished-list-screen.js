@@ -1,6 +1,6 @@
 class FinishedListScreen {
 
-    // Elements
+    // ==================================Elements=====================================//
       async taskFromTheList(taskText) {
         const selector = `new UiSelector().className("android.widget.TextView").text("${taskText}")`;
         await $(`android=${selector}`).waitForExist();
@@ -59,7 +59,7 @@ class FinishedListScreen {
       return message;
     }
   
-    //==================actions===================//
+    //======================================Actions=======================================//
     async selectListOptionFromDDM(listName) {
       const list = await this.listOptionFromListDDM(listName);
       await list.click();
@@ -76,7 +76,7 @@ class FinishedListScreen {
       
     }
   
-    // Assertions
+    //=======================================Assertions===========================================//
 
     async verifyThatTaskIsDisplayed(taskDescription) {
       const task = await this.taskFromTheList(taskDescription);

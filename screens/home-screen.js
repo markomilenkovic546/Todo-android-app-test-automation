@@ -1,5 +1,5 @@
 class HomeScreen {
-  // Elements
+  //=======================================Elements===========================================//
   get quickTaskField() {
     return $("android.widget.EditText");
   }
@@ -46,14 +46,13 @@ class HomeScreen {
     // Select the first element (index 0) from the array
     const taskElement = allTaskElements[0];
 
-    // Now let's find a child element within the parent using UiSelector
+    // Find a child element within the parent using UiSelector
     const childSelector = `new UiSelector().className("android.widget.TextView").text("${dueDate}")`;
     await taskElement.$(`android=${childSelector}`).waitForExist();
     const dueDateElement = taskElement.$(`android=${childSelector}`);
 
     return dueDateElement;
-}
-
+  }
 
   async screenTitle(screenTitle) {
     const selector = `new UiSelector().className("android.widget.TextView").text("${screenTitle}")`;
@@ -70,10 +69,33 @@ class HomeScreen {
     return list;
   }
 
-  //actions
-  
+  get enterListNameField() {
+    return $("android.widget.EditText");
+  }
+
+  async addButton() {
+    const selector = `new UiSelector().className("android.widget.Button").text("ADD")`;
+    await $(`android=${selector}`).waitForExist();
+
+    const addBtn = $(`android=${selector}`);
+    return addBtn;
+  }
+  async cancelButton() {
+    const selector = `new UiSelector().className("android.widget.Button").text("CANCEL")`;
+    await $(`android=${selector}`).waitForExist();
+
+    const cancelBtn = $(`android=${selector}`);
+    return cancelBtn;
+  }
+
+  //=======================================Actions===========================================//
+
   async typeQuickTask(taskText) {
     await this.quickTaskField.setValue(taskText);
+  }
+
+  async typeListName(listName) {
+    await this.enterListNameField.setValue(listName);
   }
 
   async clickOnAddQuickTaskButton() {
@@ -83,7 +105,6 @@ class HomeScreen {
   async openMoreOptionsDropDown() {
     await this.moreOptionsDropDown.click();
   }
-
 
   async clickOnAddTaskButton() {
     await this.createTaskButton.click();
@@ -109,8 +130,17 @@ class HomeScreen {
     await dropdown.click();
   }
 
+  async clickOnAddButton() {
+    const addBtn = await this.addButton();
+    await addBtn.click();
+  }
 
-  // Assertions
+  async clickOnCancelButton() {
+    const cancelBtn = await this.cancelButton();
+    await cancelBtn.click();
+  }
+
+  //=======================================Assertions===========================================//
   async verifyThatTaskIsNotDisplayed(taskText) {
     const selector = `new UiSelector().className("android.widget.TextView").text("${taskText}")`;
     await $(`android=${selector}`).waitForExist({ reverse: true });
@@ -129,6 +159,10 @@ class HomeScreen {
     const allListsTitle = await this.listsDropDown;
     const titleExist = await allListsTitle.waitForExist({ timeout: 5000 });
     await expect(titleExist).toBe(true, "Element exists as expected");
+  }
+
+  get verifyThatHomeScreenIsDisplayed() {
+    return $("android.widget.Spinner");
   }
 }
 module.exports = new HomeScreen();
